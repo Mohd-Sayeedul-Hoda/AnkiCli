@@ -2,7 +2,6 @@ package read
 
 import (
 	"bufio"
-	"fmt"
 	//"fmt"
 	"log"
 	"os"
@@ -18,6 +17,7 @@ type CardStruct struct{
 var CardsSlice []*CardStruct
 
 func ReadFile(){
+  CardsSlice = make([]*CardStruct, 0)
   for _, file := range FileSlice{
     makeStruct(file)
   }
@@ -30,7 +30,6 @@ func makeStruct(fileString string){
       log.Fatal(err)
   } 
   input := bufio.NewScanner(file)
-  CardsSlice = make([]*CardStruct, 0)
 
   // define flag for reading input 
   flagIn := false
@@ -44,7 +43,7 @@ func makeStruct(fileString string){
 
     text := input.Text()
     text = strings.TrimSpace(text)
-    fmt.Println(text)
+    //fmt.Println(text)
 
     if text == ""{
       continue
