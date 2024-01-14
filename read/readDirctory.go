@@ -17,7 +17,7 @@ func ReadDir(){
   } 
 
   for _, f := range files{
-    FileSlice = append(FileSlice, f.Name())
+    FileSlice = append(FileSlice, path.Join(workingDir, f.Name()))
   }
 
 }

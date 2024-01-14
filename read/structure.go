@@ -2,8 +2,8 @@ package read
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
+	//"fmt"
 	"log"
 	"os"
 	"strings"
@@ -12,14 +12,14 @@ import (
 type CardStruct struct{
   Front string
   Back string
-  DoubleSided bool
+  //DoubleSided bool
 }
 
-type CardsSlice []CardStruct
+var CardsSlice []*CardStruct
 
 func ReadFile(){
   for _, file := range FileSlice{
-    card := new(CardStruct)
+    makeStruct(file)
   }
 }
 
@@ -27,14 +27,14 @@ func makeStruct(fileString string){
 
   file, err := os.Open(fileString)
   if err != nil{
-      log.Fatal("Cannot open the file")
+      log.Fatal(err)
   } 
   input := bufio.NewScanner(file)
+  CardsSlice = make([]*CardStruct, 0)
 
   // define flag for reading input 
   flagIn := false
-  var card CardStruct
-  structText := ""
+  var card *CardStruct
 
   //define flag for completing struct
   flagSt := false
@@ -43,19 +43,35 @@ func makeStruct(fileString string){
   for input.Scan(){
 
     text := input.Text()
+    text = strings.TrimSpace(text)
+    fmt.Println(text)
+
     if text == ""{
       continue
     }
 
-    text = strings.TrimSpace(text)
 
     if text[0] == byte('-'){
       flagSt = !flagSt
+      if flagSt{
+	card = new(CardStruct)
+      }else{
+	CardsSlice = append(CardsSlice, card)
+	card = nil
+      }
       continue
     }
 
     if flagSt{
-      if text[0] == byte('*')
+      if text[0] == byte('*'){
+	flagIn = !flagIn
+	text = strings.TrimSpace(text[1:])
+	if flagIn{
+	  card.Front =text
+	}else{
+	  card.Back = text
+	}
+      }
     }
 
     
