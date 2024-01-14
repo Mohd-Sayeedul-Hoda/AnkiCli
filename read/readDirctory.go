@@ -1,17 +1,23 @@
+// this is file to get all the file from the respected dir
 package read
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"path"
 )
 
-var Files []string
+var FileSlice []string
 
 func ReadDir(){
-  homeDir:= os.ExpandEnv("$HOME")
-  workingDir := path.Join(homeDir, ".ankiHome", os.Args[1])
-  fmt.Println(workingDir)
-  err := os.Walk(workingDir, func(path string, info os.FileInfo, err Error))
-  
+  workingDir := path.Join(os.ExpandEnv("$HOME"), ".ankiHome", os.Args[1])
+  files, err := os.ReadDir(workingDir)
+  if err != nil{
+      log.Fatal(err)
+  } 
+
+  for _, f := range files{
+    FileSlice = append(FileSlice, f.Name())
+  }
+
 }

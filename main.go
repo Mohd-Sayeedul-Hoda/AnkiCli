@@ -8,4 +8,5 @@ import (
 func main(){
   fmt.Println("this is working")
   read.ReadDir()
+  read.MakeStruct()
 }
